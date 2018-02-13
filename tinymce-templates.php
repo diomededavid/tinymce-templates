@@ -1,9 +1,10 @@
 <?php
 /*
-Plugin Name: TinyMCE Templates
+Plugin Name: Fansided TinyMCE Templates
 Plugin URI: http://miya0001.github.io/tinymce-templates/
 Description: TinyMCE Templates plugin will enable to use HTML template on WordPress Visual Editor.
-Author: Takayuki Miyauchi
+Author:
+This plugin was orginiated by  Takayuki Miyauchi
 Version: 4.8.1
 Author URI: http://miya0001.github.io/tinymce-templates/
 Domain Path: /languages
@@ -39,7 +40,7 @@ class TinyMCE_Templates
 {
 	private $post_type = 'tinymcetemplates';
 	private $base_url;
-	private $translators = array(
+	/*private $translators = array(
 		'Takayuki Miyauchi' => array(
 			'lang' => 'Japanese',
 			'url'  => 'http://wpist.me/',
@@ -100,7 +101,7 @@ class TinyMCE_Templates
 			'lang' => 'hu_HU',
 			'url'  => 'https://github.com/Sch-Tomi'
 		),
-	);
+	);*/
 
 	/**
 	 * Initializing the plugin.
@@ -221,34 +222,34 @@ class TinyMCE_Templates
 		}
 	}
 
-	/**
-	 * Shortcode for templates.
-	 *
-	 * @param  array $p Shortcode parameters.
-	 * @return none  Shortcode output.
-	 */
-	public function template_shortcode( $p, $content )
-	{
-		$post_content = '';
-
-		if ( isset( $p['id'] ) && intval( $p['id'] ) ) {
-			$args = array(
-				'ID' => $p['id'],
-				'post_status' => 'publish',
-				'post_type' => 'tinymcetemplates',
-			);
-
-			$post = get_post( $p['id'] );
-
-			if ( is_a( $post, 'WP_Post' ) ) {
-				if ( get_post_meta( $p['id'], 'insert_as_shortcode', true ) ) {
-					$post_content = $post->post_content;
-				}
-			}
-		}
-
-		return apply_filters( 'tinymce_templates_content', $post_content, $p, $content );
-	}
+//	/**
+//	 * Shortcode for templates.
+//	 *
+//	 * @param  array $p Shortcode parameters.
+//	 * @return none  Shortcode output.
+//	 */
+//	public function template_shortcode( $p, $content )
+//	{
+//		$post_content = '';
+//
+//		if ( isset( $p['id'] ) && intval( $p['id'] ) ) {
+//			$args = array(
+//				'ID' => $p['id'],
+//				'post_status' => 'publish',
+//				'post_type' => 'tinymcetemplates',
+//			);
+//
+//			$post = get_post( $p['id'] );
+//
+//			if ( is_a( $post, 'WP_Post' ) ) {
+//				if ( get_post_meta( $p['id'], 'insert_as_shortcode', true ) ) {
+//					$post_content = $post->post_content;
+//				}
+//			}
+//		}
+//
+//		return apply_filters( 'tinymce_templates_content', $post_content, $p, $content );
+//	}
 
 	/**
 	 * Fires on wp_before_admin_bar_render hook.
@@ -389,79 +390,79 @@ class TinyMCE_Templates
 		register_post_type( $this->post_type, $args );
 	}
 
-	/**
-	 * Adding meta box callback function.
-	 *
-	 * @param  none
-	 * @return none
-	 */
-	public function add_meta_box()
-	{
-		add_meta_box(
-			'tinymce_templates-is-shortcode',
-			__( 'Insert as Shortcode', 'tinymce_templates' ),
-			array( $this, 'insert_as_shortcode_meta_box' ),
-			$this->post_type,
-			'side',
-			'low'
-		);
+//	/**
+//	 * Adding meta box callback function.
+//	 *
+//	 * @param  none
+//	 * @return none
+//	 */
+//	public function add_meta_box()
+//	{
+//		add_meta_box(
+//			'tinymce_templates-is-shortcode',
+//			__( 'Insert as Shortcode', 'tinymce_templates' ),
+//			array( $this, 'insert_as_shortcode_meta_box' ),
+//			$this->post_type,
+//			'side',
+//			'low'
+//		);
+//
+//		add_meta_box(
+//			'tinymce_templates-translators',
+//			__( 'Translators', 'tinymce_templates' ),
+//			array( $this, 'translators_meta_box' ),
+//			$this->post_type,
+//			'side',
+//			'low'
+//		);
+//	}
+//
+//	/**
+//	 * Adding meta box `Insert as shortcode`.
+//	 *
+//	 * @param  none
+//	 * @return none
+//	 */
+//	public function insert_as_shortcode_meta_box( $post, $box )
+//	{
+//		$res = get_post_meta( $post->ID, 'insert_as_shortcode', true );
+//
+//		if ( $res ) {
+//			echo '<label><input type="radio" name="is_shortcode" value="1" checked> '.__( 'Yes' ).'</label><br />';
+//			echo '<label><input type="radio" name="is_shortcode" value="0"> '.__( 'No' ).'</label>';
+//		} else {
+//			echo '<label><input type="radio" name="is_shortcode" value="1"> '.__( 'Yes' ).'</label><br />';
+//			echo '<label><input type="radio" name="is_shortcode" value="0" checked> '.__( 'No' ).'</label>';
+//		}
+//	}
 
-		add_meta_box(
-			'tinymce_templates-translators',
-			__( 'Translators', 'tinymce_templates' ),
-			array( $this, 'translators_meta_box' ),
-			$this->post_type,
-			'side',
-			'low'
-		);
-	}
-
-	/**
-	 * Adding meta box `Insert as shortcode`.
-	 *
-	 * @param  none
-	 * @return none
-	 */
-	public function insert_as_shortcode_meta_box( $post, $box )
-	{
-		$res = get_post_meta( $post->ID, 'insert_as_shortcode', true );
-
-		if ( $res ) {
-			echo '<label><input type="radio" name="is_shortcode" value="1" checked> '.__( 'Yes' ).'</label><br />';
-			echo '<label><input type="radio" name="is_shortcode" value="0"> '.__( 'No' ).'</label>';
-		} else {
-			echo '<label><input type="radio" name="is_shortcode" value="1"> '.__( 'Yes' ).'</label><br />';
-			echo '<label><input type="radio" name="is_shortcode" value="0" checked> '.__( 'No' ).'</label>';
-		}
-	}
-
-	/**
-	 * Adding meta box `Translators`.
-	 *
-	 * @param  none
-	 * @return none
-	 */
-	public function translators_meta_box( $post, $box )
-	{
-		echo '<ul>';
-		foreach ( $this->translators as $u => $p ) {
-			if ( $p['url'] ) {
-				printf(
-					'<li><a href="%s">%s</a> ( %s )</li>',
-					esc_attr( $p['url'] ),
-					esc_html( $u ),
-					esc_html( $p['lang'] )
-				);
-			} else {
-				printf(
-					'<li>%s ( %s )</li>',
-					esc_html( $u ),
-					esc_html( $p['lang'] )
-				);
-			}
-		}
-		echo '</ul>';
-	}
+//	/**
+//	 * Adding meta box `Translators`.
+//	 *
+//	 * @param  none
+//	 * @return none
+//	 */
+//	public function translators_meta_box( $post, $box )
+//	{
+//		echo '<ul>';
+//		foreach ( $this->translators as $u => $p ) {
+//			if ( $p['url'] ) {
+//				printf(
+//					'<li><a href="%s">%s</a> ( %s )</li>',
+//					esc_attr( $p['url'] ),
+//					esc_html( $u ),
+//					esc_html( $p['lang'] )
+//				);
+//			} else {
+//				printf(
+//					'<li>%s ( %s )</li>',
+//					esc_html( $u ),
+//					esc_html( $p['lang'] )
+//				);
+//			}
+//		}
+//		echo '</ul>';
+//	}
 
 	/**
 	 * Saving post meta to template post type.
